@@ -28,6 +28,7 @@ stack<T>& stack<T>::operator=(const stack& b){
 		count_ = b.count_;
 		array_size_ = b.array_size_;
 		array_ = new T[array_size_];
+		copy(b.array_, b.array_ + count_, array_);
 	}
 	return *this;
 }
@@ -38,6 +39,7 @@ stack<T>::stack() : array_(nullptr), array_size_(0), count_(0){};
 template <typename T>
 stack<T>::stack(const stack& x) : array_size_(x.array_size_), count_(x.count_){
 	array_ = new T[array_size_];
+	copy(x.array_, x.array_ + count_, array_);
 }
 
 template <typename T>
@@ -58,6 +60,7 @@ void stack<T>::push(T const &a){
 		if (count_ == array_size_){
 			T *p = array_;
 			array_ = new T[array_size_ * 2];
+			copy(p, p + count_, array_);
 			delete[]p;
 			array_size_ *= 2;
 		}
