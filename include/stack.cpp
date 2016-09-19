@@ -22,6 +22,14 @@ private:
 };
 
 template<typename T>
+T* copy_mas(const T *p1, size_t c, size_t s)
+{
+	T *p2 = new T[s];
+	copy(p1, p1 + c, p2);
+	return p2;
+}
+
+template<typename T>
 stack<T>& stack<T>::operator=(const stack& b)
 {
 	if (this != &b){
@@ -52,14 +60,6 @@ size_t stack<T>::count() const
 { 
 	return count_; 
 	
-}
-
-template<typename T>
-T* copy_mas(const T *p1, size_t c, size_t s)
-{
-	T *p2 = new T[s];
-	copy(p1, p1 + c, p2);
-	return p2;
 }
 
 template <typename T>
