@@ -83,7 +83,7 @@ T stack<T>::pop()
 	{
 		count_--;
 		return array_[count_];
-	}
+	} throw "";
 }
 
 #endif
