@@ -19,7 +19,6 @@ private:
 	T * array_;
 	size_t array_size_;
 	size_t count_;
-	T* copy_mas(const T *, size_t, size_t);
 };
 
 template<typename T>
@@ -41,7 +40,7 @@ template <typename T>
 stack<T>::stack(const stack& x) : array_size_(x.array_size_), count_(x.count_)
 {
 	array_ = copy_mas(x.array_, count_, array_size_);
-	}
+}
 
 template <typename T>
 stack<T>::~stack(){
@@ -56,7 +55,7 @@ size_t stack<T>::count() const
 }
 
 template<typename T>
-T* stack<T>::copy_mas(const T *p1, size_t c, size_t s)
+T* copy_mas(const T *p1, size_t c, size_t s)
 {
 	T *p2 = new T[s];
 	copy(p1, p1 + c, p2);
@@ -66,14 +65,15 @@ T* stack<T>::copy_mas(const T *p1, size_t c, size_t s)
 template <typename T>
 void stack<T>::push(T const &a)
 {
-	if (count_ == array_size_){
-		T *p = array_;
-		array_ = copy_mas(p, count_, array_size_ * 2+(count_==0));
-		if(p!=nullptr) delete[]p;
+	if (count_ == array_size_)
+	{
 		array_size_ =array_size_*2+(count_==0);
+		T *p = copy_mas(array_, count_, array_size_);
+		delete [] array_;
+		array_=p;
 	}
 	array_[count_] = a;
-	count_++;
+	++count_;
 }
 
 template <typename T>
@@ -83,7 +83,7 @@ T stack<T>::pop()
 	{
 		count_--;
 		return array_[count_];
-	} throw "";
+	} throw "Stack is empty";
 }
 
 #endif
