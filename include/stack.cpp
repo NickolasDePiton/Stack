@@ -8,13 +8,13 @@ template <typename T>
 class stack
 {
 public:
-	stack();
-	stack(const stack&);
-	size_t count() const;
-	void push(T const &);
-	T pop();
-	~stack();
-	stack& operator=(const stack&);
+	stack(); /* noexcept */
+	stack(const stack&); /* strong */
+	size_t count() const; /* noexcept */
+	void push(T const &); /* strong */
+	T pop(); /* strong */
+	~stack(); /* noexcept */
+	stack& operator=(const stack&); /* strong */
 private:
 	T * array_;
 	size_t array_size_;
