@@ -93,7 +93,7 @@ const T& stack<T>::top()
 }
 
 template <typename T>
-void stack<T>::pop(){
+void stack<T>::pop()
 {
 	if (count_> 0) 
 	{
