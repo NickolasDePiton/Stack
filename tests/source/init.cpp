@@ -45,3 +45,10 @@ SCENARIO("top", "[top]"){
   s.push(1);
   REQUIRE(s.top()==1);
 }
+
+SCENARIO("empty", "[empty]"){
+  stack<int> s1, s2;
+  s1.push(1);
+  REQUIRE(!s1.empty());
+  REQUIRE(s2.empty());
+}
