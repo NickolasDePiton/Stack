@@ -26,18 +26,17 @@ private:
 template<typename T>
 T* copy_mas(const T *p1, size_t c, size_t s)
 {
-	if (s >= c)
-	{
-	
-		T *p2 = new T[s];
-		try 
-		{
-			copy(p1, p1 + c, p2);
-		}
-		catch (...){ delete[] p2; throw("Error in copy"); }
-		return p2;
+	T *p2 = new T[s];
+	try
+	{ 
+		copy(p1, p1 + c, p2); 
 	}
-	else throw("size < count");
+	catch (...)
+	{ 
+		delete[] p2; 
+		throw; 
+	}
+	return p2;
 }
 
 template<typename T>
@@ -69,7 +68,6 @@ template <typename T>
 size_t stack<T>::count() const
 { 
 	return count_; 
-	
 }
 
 template <typename T>
@@ -89,7 +87,7 @@ void stack<T>::push(T const &a)
 template <typename T>
 const T& stack<T>::top()
 {
-	if (count_ > 0) return array_[--count_];
+	if (count_ > 0) return array_[--count_ -1];
 	else throw("Stack is empty");
 }
 
@@ -97,9 +95,7 @@ template <typename T>
 void stack<T>::pop()
 {
 	if (count_> 0) 
-	{
 		--count_;
-	} 
 	else throw ("Stack is empty");
 }
 
