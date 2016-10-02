@@ -60,7 +60,8 @@ template <typename T>
 stack<T>::stack(const stack& x) : array_size_(x.array_size_), count_(x.count_), array_ (copy_mas(x.array_, x.count_, x.array_size_)){};
 
 template <typename T>
-stack<T>::~stack(){
+stack<T>::~stack()
+{
 	delete[] array_;
 }
 
@@ -87,7 +88,7 @@ void stack<T>::push(T const &a)
 template <typename T>
 const T& stack<T>::top()
 {
-	if (count_ > 0) return array_[--count_ -1];
+	if (count_ > 0) return array_[count_ -1];
 	else throw("Stack is empty");
 }
 
