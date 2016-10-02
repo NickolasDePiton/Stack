@@ -12,11 +12,10 @@ public:
 	stack(const stack&); /* strong */
 	size_t count() const; /* noexcept */
 	void push(T const &); /* strong */
-	const T& top(); /* strong */
 	void pop(); /* strong */
+	const T& top(); /* strong */
 	~stack(); /* noexcept */
 	stack& operator=(const stack&); /* strong */
-	bool empty(); /* noexcept */
 private:
 	T * array_;
 	size_t array_size_;
@@ -102,11 +101,5 @@ void stack<T>::pop()
 	} 
 	else throw ("Stack is empty");
 }
-
-template<typename T>
-bool stack<T>::empty()
-{ 
-	return(count_ == 0); 
-} 
 
 #endif
