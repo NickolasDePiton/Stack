@@ -59,7 +59,7 @@ T* copy_mas(const T *p1, size_t sizeLeft, size_t sizeRight)
 	}
 	catch (...)
 	{ 
-		delete[] m_array; 
+		delete m_array; 
 		throw; 
 	}
 	return m_array;
@@ -88,16 +88,6 @@ stack<T>& stack<T>::operator=(const stack& b)
 	}
 	return *this;
 }
-
-template <typename T>
-stack<T>::stack() : allocator<T>(){};
-
-template <typename T>
-stack<T>::stack(const stack& x) : allocator<T>(x.size_)
-{
-	allocator<T>::ptr_ = copy_mas(x.allocator<T>::ptr_, x.allocator<T>::count_, x.allocator<T>::size_);
-	allocator<T>::count_ = x.allocator<T>::count_;
-};
 
 template <typename T>
 stack<T>::~stack(){}
