@@ -90,16 +90,17 @@ stack<T>& stack<T>::operator=(const stack& b)
 }
 
 template <typename T>
-stack<T>::stack() : array_(nullptr), array_size_(0), count_(0){};
+stack<T>::stack() : allocator<T>(){};
 
 template <typename T>
-stack<T>::stack(const stack& x) : array_size_(x.array_size_), count_(x.count_), array_ (copy_mas(x.array_, x.count_, x.array_size_)){};
-
-template <typename T>
-stack<T>::~stack()
+stack<T>::stack(const stack& x) : allocator<T>(x.size_)
 {
-	delete[] array_;
-}
+	allocator<T>::ptr_ = copy_mas(x.allocator<T>::ptr_, x.allocator<T>::count_, x.allocator<T>::size_);
+	allocator<T>::count_ = x.allocator<T>::count_;
+};
+
+template <typename T>
+stack<T>::~stack(){}
 
 template <typename T>
 size_t stack<T>::count() const
