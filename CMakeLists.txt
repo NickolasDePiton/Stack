@@ -1,23 +1,30 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5.2)
 
-set(PROJECT STACK)
+project(catch_builder CXX)
+include(ExternalProject)
+find_package(Git REQUIRED)
 
-project (${PROJECT})
+ExternalProject_Add(
+    catch
+    PREFIX ${CMAKE_BINARY_DIR}/catch
+    GIT_REPOSITORY https://github.com/philsquared/Catch.git
+    TIMEOUT 10
+    UPDATE_COMMAND ${GIT_EXECUTABLE} pull
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ""
+    INSTALL_COMMAND ""
+    LOG_DOWNLOAD ON
+)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
-option(TESTS_FOR_${PROJECT} "Include tests for project" ON)
-
-set(HEADERS ${PROJECT_SOURCE_DIR}/include/stack.cpp)
-set(SOURCES ${PROJECT_SOURCE_DIR}/include/stack.cpp)
-
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
-set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
-
-include_directories(${PROJECT_SOURCE_DIR}/include)
-
-add_library (${PROJECT} STATIC ${HEADERS} ${SOURCES})
-
-if (TESTS_FOR_${PROJECT})
-  add_subdirectory(tests)
-endif ()
+ExternalProject_Get_Property(catch source_dir)
+set(CATCH_INCLUDE_DIR ${source_dir}/include CACHE INTERNAL "Path to include folder for Catch")
+PROJECT(${GLOBAL_PROJECT_NAME})
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -fdiagnostics-color=always")
+include_directories("include")
+add_subdirectory(sources)
+include_directories(${CATCH_INCLUDE_DIR})
+enable_testing(true)
+add_subdirectory(tests)
+Contact GitHub API Training Shop Blog About
+© 2016 GitHub, Inc. Terms Privacy Security Status Help
