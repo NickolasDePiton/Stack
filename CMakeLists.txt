@@ -26,5 +26,3 @@ add_subdirectory(sources)
 include_directories(${CATCH_INCLUDE_DIR})
 enable_testing(true)
 add_subdirectory(tests)
-Contact GitHub API Training Shop Blog About
-© 2016 GitHub, Inc. Terms Privacy Security Status Help
