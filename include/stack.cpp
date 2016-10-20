@@ -18,7 +18,8 @@ void destroy(T * ptr) noexcept
 template <typename FwdIter>
 void destroy(FwdIter first, FwdIter last) noexcept
 {
-	for (; first != last; ++first) {
+	for (; first != last; ++first) 
+	{
 		destroy(&*first);
 	}
 }
@@ -43,7 +44,7 @@ allocator<T>::allocator(size_t size) : ptr_((T*)(operator new(size*sizeof(T)))),
 template<typename T>
 allocator<T>::~allocator()
 { 
-	destroy(ptr_,ptr_+size_); operator delete(ptr_); 
+	operator delete(ptr_); 
 }
 
 template<typename T>
@@ -58,7 +59,7 @@ template <typename T>
 class stack: private allocator <T>
 {
 public:
-	stack(); /* noexcept */
+	stack(size_t size=0); /* noexcept */
 	stack(const stack&); /* strong */
 	size_t count() const; /* noexcept */
 	void push(T const &); /* strong */
@@ -105,7 +106,8 @@ stack<T>& stack<T>::operator=(const stack& b)
 		stack<T> temp(b.size_);
 		while (temp.count_ < b.count_)
 		{ 
-			construct(temp.ptr_ + temp.count_, b.ptr_[temp.count_]); ++temp.count_; 
+			construct(temp.ptr_ + temp.count_, b.ptr_[temp.count_]); 
+			++temp.count_; 
 		}
 		this->swap(temp);
 	}
@@ -141,7 +143,8 @@ void stack<T>::push(T const &a)
 template <typename T>
 const T& stack<T>::top()
 {
-	if (allocator<T>::count_ > 0) return allocator<T>::ptr_[allocator<T>::count_ - 1];
+	if (allocator<T>::count_ > 0) 
+		return allocator<T>::ptr_[allocator<T>::count_ - 1];
 	else throw("Stack is empty");
 }
 
