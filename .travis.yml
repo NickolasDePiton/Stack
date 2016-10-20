@@ -1,24 +1,74 @@
+dist: precise
 language: generic
-matrix:
-  include:
-    - os: linux
-      env: COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5
-      addons:
-        apt:
-          packages:
-            - g++-5
-          sources: &sources
-            - llvm-toolchain-precise
-            - ubuntu-toolchain-r-test
-    # - os: linux
-    #   env: COMPILER_NAME=clang CXX=clang++-3.8 CC=clang-3.8
-    #   addons:
-    #     apt:
-    #       packages:
-    #         - clang-3.8
-    #       sources: *sources
 
+addons:
+    apt:
+        sources: &sources
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.7
+            - llvm-toolchain-precise-3.8
+cache:
+    apt: true
+
+matrix:
+    include:
+        - os: osx
+          compiler: clang
+        - os: linux
+          compiler: gcc
+          env: COMPILER_NAME=gcc CXX=g++-4.9 CC=gcc-4.9
+          addons:
+            apt:
+                packages:
+                    - g++-4.9
+                    - gcc-4.9
+                sources: *sources
+        - os: linux
+          compiler: gcc
+          env: COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5
+          addons:
+            apt:
+                packages:
+                    - g++-5
+                    - gcc-5
+                sources: *sources
+        - os: linux
+          compiler: clang
+          env: COMPILER_NAME=clang CXX=clang++-3.7 CC=clang-3.7
+          addons:
+            apt:
+                packages:
+                    - clang-3.7
+                sources: *sources
+        - os: linux
+          compiler: clang
+          env: COMPILER_NAME=clang CXX=clang++-3.8 CC=clang-3.8
+          addons:
+            apt:
+                packages:
+                    - clang-3.8
+                sources: *sources
+
+install:
+    - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+    - mkdir -p "${DEPS_DIR}"
+    - cd "${DEPS_DIR}"
+    - |
+      if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+        if [[ -z "$(ls -A ${DEPS_DIR}/cmake/bin)" ]]; then
+            CMAKE_URL="https://cmake.org/files/v3.6/cmake-3.6.2-Linux-x86_64.tar.gz"
+            mkdir -p cmake
+            travis_retry wget --no-check-certificate --quiet -O - "${CMAKE_URL}" |
+                tar --strip-components=1 -xz -C cmake
+        fi
+        export PATH="${DEPS_DIR}/cmake/bin:${PATH}"
+      else
+        if ! brew ls --version cmake &>/dev/null; then brew install cmake; fi
+      fi
 script:
-- mkdir build
-- cd build
-- cmake .. && make
+    - BUILD_DIR="${TRAVIS_BUILD_DIR}/build"
+    - mkdir -p "${BUILD_DIR}"
+    - cd "${BUILD_DIR}"
+    - cmake -DGLOBAL_PROJECT_NAME=stack ..
+    - make
+    - make test ARGS="-VV"
