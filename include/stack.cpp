@@ -165,4 +165,5 @@ bool stack<T>::empty()
 	return(allocator<T>::count_ == 0); 
 } 
 
-#endif
+#endif 
+
