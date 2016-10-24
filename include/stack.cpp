@@ -64,29 +64,12 @@ public:
 	size_t count() const; /* noexcept */
 	void push(T const &); /* strong */
 	void pop(); /* strong */
-	const T& top(); /* strong */
+	const T& top() const; /* strong */
 	~stack(); /* noexcept */
 	stack& operator=(const stack&); /* strong */
 	bool empty(); /* noexcept */
 };
 
-/*
-template<typename T>
-T* copy_mas(const T *p1, size_t sizeLeft, size_t sizeRight)
-{
-	T *m_array = (T*)(operator new(sizeRight*sizeof(T)));
-	try
-	{ 
-		std::copy(p1, p1 + sizeLeft, m_array); 
-	}
-	catch (...)
-	{ 
-		delete m_array; 
-		throw; 
-	}
-	return m_array;
-}
-*/
 template <typename T>
 stack<T>::stack(size_t size) : allocator<T>(size){};
 
@@ -103,12 +86,7 @@ stack<T>& stack<T>::operator=(const stack& b)
 {
 	if (this != &b)
 	{
-		stack<T> temp(b.size_);
-		while (temp.count_ < b.count_)
-		{ 
-			construct(temp.ptr_ + temp.count_, b.ptr_[temp.count_]); 
-			++temp.count_; 
-		}
+		stack<T> temp(b);
 		this->swap(temp);
 	}
 	return *this;
@@ -141,7 +119,7 @@ void stack<T>::push(T const &a)
 }
 
 template <typename T>
-const T& stack<T>::top()
+const T& stack<T>::top() const
 {
 	if (allocator<T>::count_ > 0) 
 		return allocator<T>::ptr_[allocator<T>::count_ - 1];
