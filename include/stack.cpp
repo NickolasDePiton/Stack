@@ -116,7 +116,7 @@ template <typename T>
 const T& stack<T>::top()const
 {
 	if (allocator<T>::count_ > 0) return allocator<T>::ptr_[allocator<T>::count_ - 1];
-	else throw("stack pust");
+	else throw("stack is empty");
 }
 
 template <typename T>
@@ -124,7 +124,7 @@ void stack<T>::pop()
 {
 	if (allocator<T>::count_ > 0) { --allocator<T>::count_; destroy(&(allocator<T>::ptr_[allocator<T>::count_])); 
 }
-	else throw("stack pust");
+	else throw("stack is empty");
 }
 
 template<typename T>
