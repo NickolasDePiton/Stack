@@ -34,10 +34,11 @@ bitset::bitset(size_t size) : ptr_(std::make_unique<bool[]>(size)), size_(size),
 
 auto bitset::set(size_t index)->void 
 { 
-	if (index >= 0 && index < size_) { ptr_[index] = true; ++counter_; 
-					 
-					 }
-	else throw("bad_index");
+	if (index >= 0 && index < size_) 
+	{ 
+	ptr_[index] = true; ++counter_; 				 
+        }
+	else throw("Wrong_index");
 }
 
 auto bitset::reset(size_t index)->void 
@@ -76,7 +77,7 @@ public:
 	allocator(allocator const & other) /*strong*/;
 	auto operator =(allocator const & other)->allocator & = delete;
 	
-	allocator();
+	~allocator();
 
 	auto resize() /*strong*/ -> void;
 
