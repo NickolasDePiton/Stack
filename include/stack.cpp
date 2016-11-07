@@ -221,12 +221,12 @@ private:
 };
 
 template <typename T>
-auto stack<T>::stack(size_t size) : allocator_(size){};
+stack<T>::stack(size_t size) : allocator_(size){};
 
 template <typename T>
 auto stack<T>::count()const->size_t
 { 
-return allocator<T>::count_; 
+return allocator_.count(); 
 }
 
 template <typename T>
