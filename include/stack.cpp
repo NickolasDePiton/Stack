@@ -266,4 +266,10 @@ auto stack<T>::empty() const ->bool
 return allocator_.empty(); 
 }
 
+template<typename T>
+auto stack<T>::throw_is_empty()const->void
+{ 
+throw("Empty");
+}
+
 #endif
