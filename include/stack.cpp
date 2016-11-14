@@ -94,9 +94,9 @@ public:
 	auto count() const /*noexcept*/ -> size_t;
 	auto full() const /*noexcept*/ -> bool;
 	auto empty() const /*noexcept*/ -> bool;
+	auto swap(allocator & other) /*noexcept*/ -> void;
 private:
 	auto destroy(T * first, T * last) /*noexcept*/ -> void;
-	auto swap(allocator & other) /*noexcept*/ -> void;
 
 	T * ptr_;
 	size_t size_;
@@ -144,6 +144,7 @@ auto allocator<T>::construct(T * ptr, T const & value)->void
 
 template<typename T>
 auto allocator<T>::destroy(T* ptr)->void
+{
 if(ptr>=ptr_&&ptr<=ptr_+this->size_)
 {
 	if (!map_->test(ptr-ptr_))
