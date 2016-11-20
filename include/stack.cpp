@@ -126,7 +126,8 @@ auto allocator<T>::resize()->void
 {
 	allocator<T> al(size_ * 2 + (size_ == 0));
 	for (size_t i = 0; i < size_; ++i) 
-	construct(al.ptr_ + i, ptr_[i]);
+	if(map_->test(i)) 
+	al.construct(al.get() + i, ptr_[i]);
 	this->swap(al);
 }
 
