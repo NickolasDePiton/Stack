@@ -16,7 +16,7 @@ matrix:
           compiler: clang
         - os: linux
           compiler: gcc
-          env: COMPILER_NAME=gcc CXX=g++-4.9 CC=gcc-4.9
+          env: COMPILER_NAME=gcc CXX=g++-4.9 CC=gcc-4.9 -lpthread
           addons:
             apt:
                 packages:
