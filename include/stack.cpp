@@ -298,4 +298,5 @@ auto stack<T>::throw_is_empty()const->void
 	throw("Empty");
 }
 
-#endif
+#endif 
+
